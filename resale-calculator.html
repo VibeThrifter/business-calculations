@@ -208,13 +208,8 @@
                 <h2>Business Parameters</h2>
 
                 <div class="input-group">
-                    <label for="maandelijksKapitaal">Maandelijkse cash behoefte (€)</label>
-                    <input type="number" id="maandelijksKapitaal" value="2000" min="0" step="100">
-                </div>
-
-                <div class="input-group">
-                    <label for="productPerMaand">Gewenste producten per maand</label>
-                    <input type="number" id="productPerMaand" value="10" min="1" step="1">
+                    <label for="productPerMaand">Producten per maand</label>
+                    <input type="number" id="productPerMaand" value="44" min="1" step="1">
                 </div>
             </div>
 
@@ -223,17 +218,17 @@
 
                 <div class="input-group">
                     <label for="inkoopprijs">Gemiddelde inkoopprijs (€)</label>
-                    <input type="number" id="inkoopprijs" value="200" min="0" step="10">
+                    <input type="number" id="inkoopprijs" value="275" min="0" step="10">
                 </div>
 
                 <div class="input-group">
                     <label for="verkoopprijs">Gemiddelde verkoopprijs (€)</label>
-                    <input type="number" id="verkoopprijs" value="300" min="0" step="10">
+                    <input type="number" id="verkoopprijs" value="400" min="0" step="10">
                 </div>
 
                 <div class="input-group">
                     <label for="verzendkosten">Verzendkosten per product (€)</label>
-                    <input type="number" id="verzendkosten" value="7" min="0" step="1">
+                    <input type="number" id="verzendkosten" value="10" min="0" step="1">
                 </div>
 
                 <div class="input-group">
@@ -323,7 +318,6 @@
     <script>
         function calculateAll() {
             // Haal alle input waardes op
-            const maandelijksKapitaal = parseFloat(document.getElementById('maandelijksKapitaal').value) || 0;
             const productPerMaand = parseFloat(document.getElementById('productPerMaand').value) || 0;
             const inkoopprijs = parseFloat(document.getElementById('inkoopprijs').value) || 0;
             const verkoopprijs = parseFloat(document.getElementById('verkoopprijs').value) || 0;
@@ -374,22 +368,9 @@
             const statusDiv = document.getElementById('statusMessage');
             statusDiv.innerHTML = '';
 
-            if (maandelijkseNettoWinst < maandelijksKapitaal) {
-                statusDiv.innerHTML = `<div class="warning">
-                    <strong>Let op:</strong> Je maandelijkse winst (€${maandelijkseNettoWinst.toFixed(2)})
-                    is lager dan je cash behoefte (€${maandelijksKapitaal.toFixed(2)}).
-                    Tekort per maand: €${(maandelijksKapitaal - maandelijkseNettoWinst).toFixed(2)}
-                </div>`;
-            } else {
-                statusDiv.innerHTML = `<div class="success">
-                    <strong>Goed bezig!</strong> Je verdient meer dan je maandelijkse behoefte.
-                    Overschot per maand: €${(maandelijkseNettoWinst - maandelijksKapitaal).toFixed(2)}
-                </div>`;
-            }
-
             // Extra insights
             const aantalOmlopenPerMaand = 30 / gemiddeldeTijd;
-            statusDiv.innerHTML += `<div class="success" style="margin-top: 10px;">
+            statusDiv.innerHTML = `<div class="success">
                 <strong>Efficiency:</strong> Met een gemiddelde verkoopduur van ${gemiddeldeTijd} dagen,
                 draait je kapitaal ${aantalOmlopenPerMaand.toFixed(1)}x per maand om.
                 Je hebt €${kapitaalInOmloop.toFixed(2)} nodig om ${productPerMaand} producten per maand te verkopen.
