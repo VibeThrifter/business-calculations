@@ -205,16 +205,7 @@
 
         <div class="content">
             <div class="panel">
-                <h2>Business Parameters</h2>
-
-                <div class="input-group">
-                    <label for="productPerMaand">Producten per maand</label>
-                    <input type="number" id="productPerMaand" value="44" min="1" step="1">
-                </div>
-            </div>
-
-            <div class="panel">
-                <h2>Per Product Kosten & Opbrengsten</h2>
+                <h2>Prijzen & Kosten</h2>
 
                 <div class="input-group">
                     <label for="inkoopprijs">Gemiddelde inkoopprijs (€)</label>
@@ -240,10 +231,24 @@
                     <label for="btwPercentage">BTW op winst (%)</label>
                     <input type="number" id="btwPercentage" value="21" min="0" max="100" step="1">
                 </div>
+            </div>
+
+            <div class="panel">
+                <h2>Volume & Tijd</h2>
+
+                <div class="input-group">
+                    <label for="productPerMaand">Producten per maand</label>
+                    <input type="number" id="productPerMaand" value="44" min="1" step="1">
+                </div>
 
                 <div class="input-group">
                     <label for="gemiddeldeTijd">Gemiddelde tijd tussen koop en verkoop (dagen)</label>
                     <input type="number" id="gemiddeldeTijd" value="30" min="1" step="1">
+                </div>
+
+                <div class="input-group">
+                    <label for="urenPerProduct">Uren per product (inkoop, foto's, listing, communicatie, verzending)</label>
+                    <input type="number" id="urenPerProduct" value="2" min="0" step="0.1">
                 </div>
             </div>
 
@@ -279,6 +284,17 @@
                     <div class="kpi-card">
                         <div class="kpi-label">ROI per Maand</div>
                         <div class="kpi-value" id="roiMaand">0%</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-label">Uren per Week</div>
+                        <div class="kpi-value" id="urenPerWeek">0</div>
+                        <div class="kpi-unit">uur</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-label">Uurloon (Netto)</div>
+                        <div class="kpi-value" id="uurloon">€0</div>
                     </div>
                 </div>
 
@@ -325,6 +341,7 @@
             const platformFee = parseFloat(document.getElementById('platformFee').value) || 0;
             const btwPercentage = parseFloat(document.getElementById('btwPercentage').value) || 0;
             const gemiddeldeTijd = parseFloat(document.getElementById('gemiddeldeTijd').value) || 1;
+            const urenPerProduct = parseFloat(document.getElementById('urenPerProduct').value) || 0;
 
             // Bereken per product
             const totaleInkoopKosten = inkoopprijs + verzendkosten;
@@ -348,6 +365,11 @@
             // Bereken ROI per maand
             const roiMaand = kapitaalInOmloop > 0 ? (maandelijkseNettoWinst / kapitaalInOmloop) * 100 : 0;
 
+            // Bereken tijdsbesteding
+            const totaleUrenPerMaand = urenPerProduct * productPerMaand;
+            const urenPerWeek = (totaleUrenPerMaand / 30) * 7;
+            const uurloon = totaleUrenPerMaand > 0 ? maandelijkseNettoWinst / totaleUrenPerMaand : 0;
+
             // Update de UI
             document.getElementById('margePercentage').textContent = margePercentage.toFixed(1) + '%';
             document.getElementById('nettoWinstProduct').textContent = '€' + nettoWinstPerProduct.toFixed(2);
@@ -355,6 +377,8 @@
             document.getElementById('maandelijkseWinst').textContent = '€' + maandelijkseNettoWinst.toFixed(2);
             document.getElementById('kapitaalOmloop').textContent = '€' + kapitaalInOmloop.toFixed(2);
             document.getElementById('roiMaand').textContent = roiMaand.toFixed(1) + '%';
+            document.getElementById('urenPerWeek').textContent = urenPerWeek.toFixed(1);
+            document.getElementById('uurloon').textContent = '€' + uurloon.toFixed(2);
 
             // Breakdown
             document.getElementById('breakdownInkoop').textContent = '€' + inkoopprijs.toFixed(2);
